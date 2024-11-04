@@ -9,4 +9,6 @@
 * Seaborn
 
 ## Loading the Dataset
-```spotify = pd.read_csv('spotify_2023.csv', encoding='ISO-8859-1')```
+```python
+spotify = pd.read_csv('spotify_2023.csv', encoding='ISO-8859-1')
+```
