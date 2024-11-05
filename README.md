@@ -82,6 +82,57 @@ speechiness_%            int64
 dtype: object
 ```
 ## Cleaning the Data
-* Hnadling missing values
+* Handling missing values
 * Removing duplicate values
 * Correcting data types
+
+#### The code removes missing values from specified columns, drops duplicates, converts the `streams` column to numeric, and saves the cleaned DataFrame as `spotify_cleaned_2023.csv` for further analysis.
+
+```python
+# Drop rows with missing values in 'in_shazam_charts' and 'key'
+spotify.dropna(subset=['in_shazam_charts', 'key'], inplace=True)
+
+# Drop duplicate entries based on 'track_name' and 'artist(s)_name'
+spotify.drop_duplicates(subset=['track_name', 'artist(s)_name'], inplace=True)
+
+# Convert 'streams' to numeric, coercing errors to NaN
+spotify['streams'] = pd.to_numeric(spotify['streams'], errors='coerce')
+
+# Drop rows with missing values in 'streams' after conversion
+spotify.dropna(subset=['streams'], inplace=True)
+
+# Save the cleaned DataFrame to a new CSV file
+spotify.to_csv('spotify_cleaned_2023.csv', index=False)
+
+# Load the cleaned data
+spotify_cleaned = pd.read_csv('spotify_cleaned_2023.csv', encoding='ISO-8859-1')
+spotify_cleaned
+```
+## Output
+
+#### The cleaned data contains 813 rows and 42 columns, indicating that rows with missing values or duplicates were successfully removed while retaining the original structure of the dataset.
+
+![Screenshot 2024-11-05 213526](https://github.com/user-attachments/assets/9af98e3f-f233-4efb-81e6-ffaf66149f4d)
+
+## BASIC DESCRIPTIVE STATISTICS
+
+#### This code calculates the mean, median, and standard deviation of the `streams` column in the cleaned dataset. The results provide insights into the average number of streams, the midpoint of the data, and the variability of stream counts, respectively.
+
+```python
+mean_streams = spotify_cleaned['streams'].mean()
+median_streams = spotify_cleaned['streams'].median()
+std_streams = spotify_cleaned['streams'].std()
+
+print('The mean of the streams column is:', mean_streams)
+print('The median of the streams column is:', median_streams)
+print('The standard deviation of the streams column is:', std_streams)
+```
+## Output
+
+#### This is the result of the analysis
+
+```output
+The mean of the streams column is: 468922407.2521525
+The median of the streams column is: 263453310.0
+The standard deviation of the streams column is: 523981505.32150424
+```
