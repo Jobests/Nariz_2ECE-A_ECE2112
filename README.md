@@ -81,6 +81,38 @@ liveness_%               int64
 speechiness_%            int64
 dtype: object
 ```
+## Looking for missing values/duplicated values
+
+```python
+# Calculate the number of missing values in each column
+missing_values = pd.isnull(spotify).sum()
+print('The columns that have missing values are:')
+print(missing_values[missing_values > 0])
+
+# Find duplicate rows based on 'track_name' and 'artist(s)_name'
+duplicate_rows = spotify[spotify.duplicated(['track_name', 'artist(s)_name'])]
+print('Rows that have duplicate values are:')
+duplicate_rows
+```
+
+## Output
+
+#### The columns `in_shazam_charts` and `key` have 50 and 95 missing values, respectively. This suggests that some data related to song charts and key signatures are incomplete and require cleaning.
+
+```output
+The columns that have missing values are:
+in_shazam_charts    50
+key                 95
+dtype: int64
+```
+#### these tracks are performed by ThxSoMch, The Weeknd, Lizzo, and Rosa Linn, respectively. These rows have duplicate track names but differ in other aspects such as playlist or chart appearances and streaming counts.
+
+```output
+Rows that have duplicate values are: 
+```
+![Screenshot 2024-11-06 232516](https://github.com/user-attachments/assets/e786c413-8e68-4945-969a-11aecddcf52d)
+
+
 ## Cleaning the Data
 * Handling missing values
 * Removing duplicate values
@@ -110,7 +142,7 @@ spotify_cleaned
 ```
 ## Output
 
-#### The cleaned data contains 813 rows and 42 columns, indicating that rows with missing values or duplicates were successfully removed while retaining the original structure of the dataset.
+#### The cleaned data contains 813 rows and 24 columns, indicating that rows with missing values or duplicates were successfully removed while retaining the original structure of the dataset.
 
 ![Screenshot 2024-11-05 213526](https://github.com/user-attachments/assets/9af98e3f-f233-4efb-81e6-ffaf66149f4d)
 
@@ -136,3 +168,58 @@ The mean of the streams column is: 468922407.2521525
 The median of the streams column is: 263453310.0
 The standard deviation of the streams column is: 523981505.32150424
 ```
+
+## Outliers and Trends
+#### The boxplot makes it easy to identify outliers in the data. Outliers are displayed as individual points outside the whiskers of the box, allowing us to quickly spot any values that are significantly different from the rest.
+
+* `plt.figure()` sets the size of the plot to 12 inches wide and 6 inches tall for better readability.
+* `sns,boxplot()` creates the boxplot using the `artist_count` data from the `spotify_cleaned` DataFrame.
+
+```python
+plt.figure(figsize=(12,6))
+sns.boxplot(x=spotify_cleaned['artist_count'])
+plt.grid()
+plt.title('Distribution of Artist Count')
+plt.xlabel('Artist Counts')
+plt.show()
+```
+## Ouput
+![image](https://github.com/user-attachments/assets/529d3bd4-517f-4a9f-87ab-e684ffe1ee30)
+
+* `plt.figure()` sets the size of the plot to 12 inches wide and 6 inches tall for better readability.
+* `sns,boxplot()` creates the boxplot using the `released_year` data from the `spotify_cleaned` DataFrame.
+
+```python
+plt.figure(figsize=(12,6))
+sns.boxplot(x=spotify_cleaned['released_year'])
+plt.grid()
+plt.title('Distribution of Released Year')
+plt.xlabel('Released Year')
+plt.show()
+```
+
+## Output
+
+![image](https://github.com/user-attachments/assets/194efd4e-7a31-4f70-a819-d47ff6adb916)
+
+#### The histplot is useful for understanding the distribution of the `released_year` variable in the dataset. It helps identify trends in how releases have been spread across years. The KDE curve further highlights the density of releases, showing a smoothed distribution.
+
+* `plt.figure(figsize=(12,6)):` This sets the size of the plot to 12 inches wide and 6 inches tall, providing a spacious view for the data.
+
+* `sns.histplot(spotify_cleaned['released_year'], bins=30, kde=True, color='#17becf'):`
+  * `sns.histplot:` Creates a histogram to visualize the distribution of values in the released_year column from the spotify_cleaned dataset.
+  * `bins=30:` Divides the data into 30 bins, or intervals, for a detailed look at how released_year values are distributed.
+  * `kde=True:` Adds a Kernel Density Estimate (KDE) curve over the histogram, which smooths the distribution and shows the underlying trend.
+  * `color='#17becf':` Uses a soft teal color (#17becf) for both the histogram bars and the KDE curve, making the plot visually appealing and easy to interpret.
+
+```python
+plt.figure(figsize=(12,6))
+sns.histplot(spotify_cleaned['released_year'],bins=30,kde=True, color='#17becf')
+plt.grid()
+plt.title('Distribution of Released Year')
+plt.xlabel('Released Year')
+plt.ylabel('Frequency')
+plt.show()
+```
+## Output
+![image](https://github.com/user-attachments/assets/d27ab491-763f-435b-b077-5b2be2bf9b0d)
