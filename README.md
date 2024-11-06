@@ -223,3 +223,66 @@ plt.show()
 ```
 ## Output
 ![image](https://github.com/user-attachments/assets/d27ab491-763f-435b-b077-5b2be2bf9b0d)
+
+## Top Performers
+
+## Highest Streamed Track
+
+* `spotify_cleaned['streams'].idxmax():` Finds the index of the track with the highest stream count.
+* `spotify_cleaned.loc[max_stream, ['track_name', 'streams']]:` Selects the track name and stream count for the track with the highest streams.
+
+```python
+max_stream = spotify_cleaned['streams'].idxmax()
+highest_stream = spotify_cleaned.loc[max_stream, ['track_name', 'streams']]
+highest_stream
+```
+## Output
+
+#### The output shows that the track "Shape of You" has 3,562,543,890 streams, and its index in the DataFrame is 151.
+
+```output
+track_name    Shape of You
+streams       3562543890.0
+Name: 151, dtype: object
+```
+
+## Top 5 Stream Tracks
+
+#### The code selects the top 5 tracks with the highest stream counts from the `spotify_cleaned` DataFrame. It first filters the `track_name` and `streams` columns, sorts the data in descending order by streams using `sort_values()`, and then retrieves the top 5 tracks with `.head()`. The result is stored in the `top_tracks` variable, showing the tracks with the most streams.
+
+```python
+top_tracks = spotify_cleaned[['track_name','streams']].sort_values(by='streams', ascending=False).head()
+top_tracks
+```
+
+## Output
+
+#### The output shows the top 5 most stream tracks in the dataset, along with the total streams and the location of each tracks. The output is the result of using `.sort_values()`
+
+![image](https://github.com/user-attachments/assets/47a91d14-4e6f-405d-bf2b-111a9868d77a)
+
+## Top 5 most Frequent Artist
+
+#### This code splits the `artist(s)_name` column into individual artist names using `.str.split(', ')`. The `explode()` function then converts the list of artists into separate rows, resulting in one row per artist. The `value_counts()` function counts the occurrences of each artist, and `.head()` retrieves the top 5 most frequent artists. The result is stored in the `top_artists` variable, which shows the 5 most frequent artists in the dataset.
+
+```python
+artist_splt = spotify_cleaned['artist(s)_name'].str.split(', ')
+
+all_artists = artist_splt.explode()
+
+top_artists = all_artists.value_counts().head()
+top_artists
+```
+## Output
+
+#### This output shows the top 5 most frequent artists in the dataset, along with the number of times each artist appears. The output is the result of using `value_counts()` on the `artist(s)_name` column after splitting and exploding the artist names. The data type is `int64`, indicating that the count values are integers.
+
+```output
+artist(s)_name
+Bad Bunny         36
+Taylor Swift      32
+The Weeknd        26
+Kendrick Lamar    23
+Feid              21
+Name: count, dtype: int64
+```
