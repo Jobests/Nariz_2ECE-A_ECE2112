@@ -288,6 +288,11 @@ Name: count, dtype: int64
 ```
 
 ## TEMPORAL TRENDS
+
+* `groupby('released_year'):` Groups the data by the release year of tracks.
+* `size():` Counts the number of tracks in each group (i.e., the number of tracks released per year).
+* `reset_index(name='track_count'):` Resets the index and names the count column as track_count.
+
 ```python
 tracks_by_year = spotify_cleaned.groupby('released_year').size().reset_index(name='track_count')
 
@@ -300,7 +305,14 @@ plt.title("Tracks Released Annually")
 plt.show()
 ```
 ## Output
+
+#### The graph clearly shows that the number of tracks released significantly increased starting in 2020 and continuing into the following years. This trend highlights a noticeable rise in track releases after 2020, with the data indicating that more music was produced and released in these later years compared to earlier periods. The upward shift in releases starting from 2020 is evident when comparing it to previous years.
+
 ![image](https://github.com/user-attachments/assets/64d4c941-5799-473f-888e-78c60070fc34)
+
+* `groupby('released_month'):` Groups the data by the month of release.
+* `size():` Counts the number of tracks released in each month.
+* `reset_index(name='track_count'):` Resets the index and assigns the count column a name, `track_count.`
 
 ```python
 tracks_by_month = spotify_cleaned.groupby('released_month').size().reset_index(name='track_count')
@@ -314,6 +326,8 @@ plt.ylabel("Number of Tracks")
 plt.show()
 ```
 ## Output
+
+#### The bar graph displaying tracks released per month reveals that the highest number of songs were released in either January or May. These two months stand out, showing a significant peak in track releases compared to other months throughout the year. This pattern suggests that January and May may be key months for music releases, with a notable concentration of new tracks being made available to listeners during these times.
 
 ![image](https://github.com/user-attachments/assets/3ed1bfc6-3018-4133-b651-21c53fd108d6)
 
