@@ -525,3 +525,13 @@ plt.show()
 
 ### Conclusion
 #### The output indicates that Taylor Swift has consistently appeared at the top of both playlists and charts across multiple platforms (Apple, Spotify, and Deezer). Specifically, she ranks #1 based on her total appearances on both playlists and charts.
+
+## References
+* https://www.geeksforgeeks.org/
+* https://stackoverflow.com/
+* https://youtu.be/8d7ywKCm6HI?si=PsZ2MpOTtOxtwqyp
+* https://youtu.be/xi0vhXFPegw?si=TzFIvmuk84dzatbZ
+* https://youtu.be/Liv6eeb1VfE?si=bh3VcDjWzYeFfJAw
+* https://www.freecodecamp.org/
+* https://www.codecademy.com/
+* https://www.statology.org/
