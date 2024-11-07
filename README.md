@@ -224,7 +224,7 @@ plt.show()
 ## Output
 ![image](https://github.com/user-attachments/assets/d27ab491-763f-435b-b077-5b2be2bf9b0d)
 
-## Top Performers
+## TOP PERFORMERS
 
 ## Highest Streamed Track
 
@@ -286,3 +286,16 @@ Kendrick Lamar    23
 Feid              21
 Name: count, dtype: int64
 ```
+##  GENRE AND MUSIC CHARACTERISTICS
+
+```python
+x = spotify_cleaned[['streams','bpm','danceability_%','energy_%']].corr()
+x
+
+sns.heatmap(x, annot=True, cmap='RdYlGn_r')
+plt.title('Correlation of Streams and Musical Attributes')
+plt.show()
+```
+
+ ## Output
+ ![image](https://github.com/user-attachments/assets/52ff96f0-f945-49f4-9cc7-0bb5dfd5d9ca)
