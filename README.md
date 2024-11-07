@@ -286,6 +286,38 @@ Kendrick Lamar    23
 Feid              21
 Name: count, dtype: int64
 ```
+
+## TEMPORAL TRENDS
+```python
+tracks_by_year = spotify_cleaned.groupby('released_year').size().reset_index(name='track_count')
+
+plt.figure(figsize=(10, 6))
+sns.lineplot(data=tracks_by_year, x='released_year', y='track_count')
+plt.grid(True)
+plt.xlabel("Year of Release")
+plt.ylabel("Number of Tracks")
+plt.title("Tracks Released Annually")
+plt.show()
+```
+## Output
+![image](https://github.com/user-attachments/assets/64d4c941-5799-473f-888e-78c60070fc34)
+
+```python
+tracks_by_month = spotify_cleaned.groupby('released_month').size().reset_index(name='track_count')
+
+plt.figure(figsize=(10, 6))
+sns.barplot(data=tracks_by_month, x='released_month', y='track_count', width=0.8, color='#FF6F61')
+plt.grid(True)
+plt.title("Tracks Released Monthly")
+plt.xlabel("Month of Release")
+plt.ylabel("Number of Tracks")
+plt.show()
+```
+## Output
+
+![image](https://github.com/user-attachments/assets/3ed1bfc6-3018-4133-b651-21c53fd108d6)
+
+
 ##  GENRE AND MUSIC CHARACTERISTICS
 
 ## Stream and Musical Attribute Correleation
@@ -440,6 +472,16 @@ plt.show()
 ## Output
 ![image](https://github.com/user-attachments/assets/5d5e32e0-b750-45fe-99d6-fd87abbf6bf0)
 
+* The code groups the data in `spotify_cleaned` by the `artist(s)_name` column.
+* It sums up the chart appearances of each artist across three platforms: Apple, Spotify, and Deezer.
+* The resulting `artists_charts` DataFrame now contains the total chart appearances for each artist on each platform.
+* `axis=1` ensures that the sum is calculated horizontally (across columns).
+* The `reset_index(drop=True)` ensures that the index is restructured after sorting.
+* The bars are colored red `(color='r')`.
+* `plt.tight_layout()` ensures that everything fits nicely within the figure.
+* `plt.show()` displays the final plot.
+
+
 ```python
 artists_charts = spotify_cleaned.groupby('artist(s)_name')[['in_apple_charts', 'in_spotify_charts', 'in_deezer_charts']].sum()
 
@@ -466,3 +508,6 @@ plt.show()
 
 ## Output
 ![image](https://github.com/user-attachments/assets/381c2d33-92a9-4aa8-9e14-81ce1d216f4d)
+
+### Conclusion
+#### The output indicates that Taylor Swift has consistently appeared at the top of both playlists and charts across multiple platforms (Apple, Spotify, and Deezer). Specifically, she ranks #1 based on her total appearances on both playlists and charts.
