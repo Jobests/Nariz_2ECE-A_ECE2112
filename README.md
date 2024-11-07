@@ -288,6 +288,12 @@ Name: count, dtype: int64
 ```
 ##  GENRE AND MUSIC CHARACTERISTICS
 
+## Stream and Musical Attribute Correleation
+
+#### This code calculates and visualizes the correlation between `streams`, `bpm`, `danceability_%`, and `energy_%` using a heatmap, showing relationships between these attributes in the `spotify_cleaned` dataset.
+
+* `sns.heatmap(x, annot=True, cmap='RdYlGn_r'):` Creates a heatmap of the correlation matrix x. The annot=True argument displays the correlation values on the heatmap, and cmap='RdYlGn_r' applies a red-to-green reversed color gradient.
+
 ```python
 x = spotify_cleaned[['streams','bpm','danceability_%','energy_%']].corr()
 x
@@ -298,4 +304,17 @@ plt.show()
 ```
 
  ## Output
+
+#### In this correlation heatmap, we can see the relationships between various musical attributes like `streams`, `bpm`, `danceability_%`, and `energy_%`. The correlation coefficient ranges from -1 to 1, where values closer to 1 or -1 indicate stronger positive or negative correlations, respectively. Values close to 0 imply a weak or no correlation.
+
+* `BPM`: The correlation between streams and bpm is -0.025, which is very close to 0. This suggests that there is virtually no relationship between the song's tempo and the number of streams.
+* `Danceability_%`: The correlation between streams and danceability_% is -0.094. This is a weak negative correlation, suggesting that higher danceability might slightly decrease streams, but the effect is minimal.
+* `Energy_%`: The correlation between streams and energy_% is -0.037, which is again very close to 0. Like bpm, this indicates that energy level has little to no impact on streams.
+
+### Conclusion
+
+#### All the correlations between streams and the musical attributes are weak and close to zero. This implies that none of these attributes appear to have a significant influence on streams based on this data.
+ 
  ![image](https://github.com/user-attachments/assets/52ff96f0-f945-49f4-9cc7-0bb5dfd5d9ca)
+
+ 
