@@ -317,4 +317,152 @@ plt.show()
  
  ![image](https://github.com/user-attachments/assets/52ff96f0-f945-49f4-9cc7-0bb5dfd5d9ca)
 
- 
+## Correleation with the 4 Musical Attributes
+
+#### This code calculates the correlation between `danceability_%` and `energy_%` and the `valence_%` and `acousticness_%` in the spotify_cleaned dataset. The `.corr()` computes for the correlation coefficient.
+
+```python
+y = spotify_cleaned[['danceability_%','energy_%']].corr()
+sns.heatmap(y, annot=True)
+plt.title('Correlation of Danceability and Energy')
+plt.show()
+
+z = spotify_cleaned[['valence_%','acousticness_%']].corr()
+sns.heatmap(z, annot=True)
+plt.title('Correlation between Valence and Acousticness')
+plt.show()
+```
+## Output
+
+#### The analysis showed that danceability and energy have a stronger correlation than valence and acousticness.
+
+![image](https://github.com/user-attachments/assets/36d876ae-ee85-46a4-84a8-512380fdc67c)
+![image](https://github.com/user-attachments/assets/b1536491-5632-40d3-ae8c-b2aac4b046fe)
+
+## PLATFORM POPULARITY
+
+## Popularity Platform
+
+* `spot_track_sum = spotify_cleaned['in_spotify_playlists'].sum():` calculates the sum of all values in the in_spotify_playlists column, representing the total number of tracks in Spotify playlists.
+
+* `deezer_track_sum = pd.to_numeric(spotify_cleaned['in_deezer_playlists'], errors='coerce').sum():` converts values in the in_deezer_playlists column to numeric, handling any non-numeric values by setting them to NaN (errors='coerce), and then sums these values to get the total number of tracks in Deezer playlists.
+
+* `apple_track_sum = spotify_cleaned['in_apple_playlists'].sum():` calculates the sum of all values in the in_apple_playlists column, representing the total number of tracks in Apple playlists.
+
+* `platforms = ['Spotify', 'Deezer', 'Apple']:` creates a list of platform names for labeling the chart.
+
+* `sum_tracks = [spot_track_sum, deezer_track_sum, apple_track_sum]:` creates a list of the total track counts for each platform, to be used as data for the bar chart.
+
+* `plt.bar(platforms, sum_tracks, color=['blue','orange','yellow']):` creates a bar chart with platforms as the x-axis labels, sum_tracks as the heights of the bars, and assigns colors to each platform’s bar: blue for Spotify, orange for Deezer, and yellow for Apple.
+
+* `plt.grid():` adds a grid to the chart for easier readability.
+
+* `plt.title('Number of Tracks Popularity by Platform'):` sets the chart title to "Number of Tracks Popularity by Platform".
+
+* `plt.ylabel('Number of Tracks'):` labels the y-axis as "Number of Tracks" to indicate what the bars represent.
+
+* `plt.show():` displays the plot.
+
+```python
+spot_track_sum = spotify_cleaned['in_spotify_playlists'].sum()
+deezer_track_sum = pd.to_numeric(spotify_cleaned['in_deezer_playlists'], errors='coerce').sum()
+apple_track_sum = spotify_cleaned['in_apple_playlists'].sum()
+
+platforms = ['Spotify', 'Deezer', 'Apple']
+sum_tracks = [spot_track_sum, deezer_track_sum, apple_track_sum]
+
+plt.bar(platforms, sum_tracks, color=['blue','orange','yellow'])
+plt.grid()
+plt.title('Number of Tracks Popularity by Platform')
+plt.ylabel('Number of Tracks')
+plt.show()
+```
+## Output
+
+#### The plot shows that Spotify has the most tracks, followed by Deezer, and then Apple. Specifically, the number of tracks in each platform’s playlist is 3,943,504 for Spotify, 48,719 for Deezer, and 69,618 for Apple.
+
+![image](https://github.com/user-attachments/assets/00f9544d-9902-49c8-a470-e9d25034bd81)
+
+## ADVANCE ANALYSIS
+
+* `spotify_cleaned.groupby('key'):` This groups the data in spotify_cleaned by the key column, which presumably contains information about the musical key of each track.
+* `keys_group.plot(kind='bar'):` This line generates a bar plot from the keys_group data
+
+```python
+keys_group = spotify_cleaned.groupby('key')['streams'].sum()
+
+keys_group.plot(kind='bar', x='key', y='streams', title='Total Streams by Key', legend=False)
+plt.grid()
+plt.xlabel('Key')
+plt.ylabel('Total Streams')
+plt.xticks()
+plt.show()
+```
+
+## Output
+
+#### The bar graph shows that the majority of songs are in C#. Following C# in frequency are D, F, G, G#, B, E, F#, A#, A, and D# in descending order.
+![image](https://github.com/user-attachments/assets/31c9ae16-6490-4aee-9e87-0f771f621138)
+
+* `spotify_cleaned.groupby('artist(s)_name'):` This groups the data by the artist(s)_name column. This column likely contains the name(s) of the artist(s) associated with each track.
+* `[['in_apple_playlists', 'in_spotify_playlists', 'in_deezer_playlists']]:` After grouping, the code selects the columns related to playlist counts on three platforms: Apple, Spotify, and Deezer. These columns track how many playlists the artist's songs appear on for each platform.
+* `.sum():` This computes the sum of the playlist appearances for each artist across the selected columns `(in_apple_playlists, in_spotify_playlists, and in_deezer_playlists)`. The result is a DataFrame where each row corresponds to an artist, and the values represent the total number of playlist appearances across the three platforms.
+
+* `.sum(axis=1):` The sum(axis=1) function computes the sum of the playlist counts across the three platforms (Apple, Spotify, and Deezer) for each artist, row by row.
+* `reset_index():` This resets the index to a default integer index. After grouping, the artist names are the index, but this line converts the artist names back into a regular column for easy access.
+* `head(10):` This selects the top 10 artists with the most total playlists, based on the sorted values.
+* `plt.figure(figsize=(15, 6))`: Creates a figure for the plot with a specified size (15 inches wide by 6 inches tall).
+  * `plt.bar():` This creates a bar plot where:
+  * The x-axis represents the artist names (artist(s)_name).
+  * The y-axis represents the Total Playlists for each artist.
+  * color='g': The bars will be colored green.
+
+```python
+artists_playlist = spotify_cleaned.groupby('artist(s)_name')[['in_apple_playlists', 'in_spotify_playlists', 'in_deezer_playlists']].sum()
+
+artists_playlist['Total Playlists'] = artists_playlist[['in_apple_playlists', 'in_spotify_playlists', 'in_deezer_playlists']].sum(axis=1)
+
+artists_summary_playlist = artists_playlist[['Total Playlists']].reset_index()
+artists_summary_playlist = artists_summary_playlist.sort_values(by='Total Playlists', ascending=False).reset_index(drop=True)
+artisttop10_playlist = artists_summary_playlist.head(10)
+
+plt.figure(figsize=(15, 6))
+plt.bar(artisttop10_playlist['artist(s)_name'], artisttop10_playlist['Total Playlists'], color='g')
+plt.title('Top 10 Artists by Total Playlists')
+plt.xlabel('Artist(s) Name')
+plt.ylabel('Total Playlists')
+plt.grid()
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+```
+
+## Output
+![image](https://github.com/user-attachments/assets/5d5e32e0-b750-45fe-99d6-fd87abbf6bf0)
+
+```python
+artists_charts = spotify_cleaned.groupby('artist(s)_name')[['in_apple_charts', 'in_spotify_charts', 'in_deezer_charts']].sum()
+
+artists_charts['Total Playlists'] = artists_charts[['in_apple_charts', 'in_spotify_charts', 'in_deezer_charts']].sum(axis=1)
+
+artists_summary_charts = artists_charts[['Total Playlists']].reset_index()
+
+artists_summary_charts = artists_summary_charts.sort_values(by='Total Playlists', ascending=False).reset_index(drop=True)
+
+artisttop10_charts = artists_summary_charts.head(10)
+
+plt.figure(figsize=(15, 6))
+plt.bar(artisttop10_charts['artist(s)_name'], artisttop10_charts['Total Playlists'], color='r')
+
+plt.title('Top 10 Artists by Total Charts')
+plt.xlabel('Artist(s) Name')
+plt.ylabel('Total Charts')
+plt.grid()
+plt.xticks(rotation=45)  
+
+plt.tight_layout()
+plt.show()
+```
+
+## Output
+![image](https://github.com/user-attachments/assets/381c2d33-92a9-4aa8-9e14-81ce1d216f4d)
